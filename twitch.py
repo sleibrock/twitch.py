@@ -6,52 +6,54 @@ Twitch.py - Twitch on the CLI
 See readme.md for more info
 '''
 
-__author__ = 'Steven Leibrock'
-__email__ = 'leibrockoli@gmail.com'
-__version__ = '1.1.2'
+__author__  = 'Steven Leibrock'
+__email__   = 'leibrockoli@gmail.com'
+__version__ = '1.1.4'
 
 from argparse import ArgumentParser
 from subprocess import call
+from unittest import main as TestMain
+from unittest import TestCase
 
 # Constants
-API_URL = 'https://api.twitch.tv/kraken'
-TOP_GAMES = '/games/top'
-SEARCH_STR = '/search/streams'
-DEFAULT_LIMIT = 10
+API_URL                = 'https://api.twitch.tv/kraken'
+TOP_GAMES              = '/games/top'
+SEARCH_STR             = '/search/streams'
+DEFAULT_LIMIT          = 10
 LIVESTREAMER_INSTALLED = True
-REQUESTS_INSTALLED = True
-CHAR_LIMIT = 50
-DEBUG = False
+REQUESTS_INSTALLED     = True
+CHAR_LIMIT             = 50
+DEBUG                  = False
 
 # Livestream qualities
-# Set USE_AUTO_QUALITY to False if you want to select quality
-# instead of using AUTO_QUALITY automatically
-USE_AUTO_QUALITY = True
-AUTO_QUALITY = 'source'
+# -q will disable the automatic use of AUTO_QUALITY
+USE_AUTO_QUALITY       = True
+AUTO_QUALITY           = 'source'
 
-# If on a Windows platform, you will probably
-# need to change this path to where Livestreamer.exe is
+# If Livestreamer is installed, will check to figure out where it is
+# Livestreamer installs are in different places based on the OS
 LIVESTREAMER_PATH = '/usr/bin/livestreamer'
 POSSIBLE_PATHS = ['/usr/bin/livestreamer', '/usr/local/bin/livestreamer']
 
 # Try loading the Requests library
 try:
+    if debug: print("Checking for Requests...")
     from requests import get as re_get
 except ImportError as e:
     print('Error: {0}'.format(e))
     print('Requests not installed, to install it you can run:')
-    print('\n\tpip install requests')
-    print('Defaulting to urllib')
+    print('\n  pip install requests\n')
+    print('Defaulting to urllib...')
     from urllib import urlopen
     from json import loads as json_load
     REQUESTS_INSTALLED = False
 
 # Try loading Livestreamer (if failed, tell them how to get)
 try:
-    print('Checking for Livestreamer...')
+    if debug: print("Checking for Livestreamer...")
     from livestreamer import streams as StreamData
     from livestreamer import __version__ as LSV
-    print('Livestreamer version: {v}'.format(v=LSV))
+    if debug: print('Livestreamer version: {v}'.format(v=LSV))
 
     # Try to locate where Livestreamer is installed
     from os.path import isfile as where_is_file
@@ -60,27 +62,9 @@ try:
             LIVESTREAMER_PATH = path
 except Exception as e:
     print('Error: {0}'.format(e))
-    print('Livestreamer not installed!')
-    print('To install Livestreamer, run the following code:\n')
-    print('\n   pip install livestreamer')
+    print('Livestreamer not installed, to install it you can run:')
+    print('\n  pip install livestreamer\n')
     LIVESTREAMER_INSTALLED = False
-
-
-def install_file():
-    '''
-    Install the twitch.py file to user binaries
-    POSIX : install to /usr/bin
-    MSDOS : install to C:/Windows/System32 (?)
-    OSX   : No ty
-    '''
-    from os import name as os_name
-
-    if os_name == 'posix':
-        call("sh install_linux.sh")
-    else:
-        print("Can't install twitch.py on this system automatically")
-        return False
-    return True
 
 
 def limit_string(s):
@@ -88,7 +72,9 @@ def limit_string(s):
     Limit a string to the CHAR_LIMIT
     :s is the input string
     '''
-    return "{0}..".format(s[:CHAR_LIMIT])
+    # Daft Punk song variable for extra credit
+    too_long = ".." if len(s) > CHAR_LIMIT else ""
+    return "{0}{1}".format(s[:CHAR_LIMIT], too_long)
 
 
 def load_url(url):
@@ -105,6 +91,7 @@ def load_url(url):
 def get_input(disp_str, err_str, maxv):
     '''
     Fetch input from the user and return the number given
+    Subtract 1 at the end to make it from [0:(maxv-1)]
     '''
     inp = None
     while inp is None:
@@ -146,7 +133,7 @@ def main_directory(limit):
     Fetch the top games on Twitch
     :limit determines how many results will be fetched
     '''
-    print('Fetching main Twitch.tv directory...\n')
+    print('Fetching main Twitch.tv directory...')
     print('Press CTRL+C to quit\n')
     url = '{0}{1}?limit={2}'.format(API_URL, TOP_GAMES, limit)
     blob = load_url(url)
@@ -177,8 +164,9 @@ def scan_game_directory(game, limit):
     urls = [u['channel']['url'] for u in blob['streams']]
     highest_views = max([len("{0:,}".format(v['viewers'])) for v in
                          blob['streams']])
-    print('Total streams: {0}'.format(blob['_total']))
-    print('Total fetched: {0}\n'.format(len(blob['streams'])))
+    if DEBUG:
+        print('Total streams: {0}'.format(blob['_total']))
+        print('Total fetched: {0}\n'.format(len(blob['streams'])))
     for i, stream in enumerate(blob['streams']):
         print('{n:>{f}}) {s: <{cl}}  [viewers: {v:{mv},}]'.format(
                 s=limit_string(stream['channel']['status']),
@@ -186,40 +174,48 @@ def scan_game_directory(game, limit):
                 cl=CHAR_LIMIT+2, mv=highest_views))
 
     if not LIVESTREAMER_INSTALLED:
-        print('{0}\n!! Livestreamer is not installed !!\n{0}'.format('*'*10))
+        print('\n{0}\n!! Livestreamer is not installed !!\n{0}'.format('*'*10))
         return False
 
     inp = get_input('Select stream> ', 'Try again', len(urls))
     return load_into_livestreamer(urls[inp])
 
+
+class TwitchTest(TestCase):
+
+    def test_front_page(self):
+        pass
+
+    def test_limit_count(self):
+        pass
+
 if __name__ == '__main__':
     parser = ArgumentParser(
         description='Interact with Twitch.tv',
         prog='twitch.py')
-    parser.add_argument('-g', '--game', type=str, nargs='+', metavar='GAME',
+    parser.add_argument('-g', type=str, nargs='+', metavar='text',
                         help='The game whose directory you wish to scan')
     parser.add_argument('-l', '--limit', type=int, default=DEFAULT_LIMIT, 
                         metavar='LIM', help='Number of streams to fetch')
-    parser.add_argument('-i', '--install', const=True, default=False,
-                        action='store_const', help='Install the file')
     parser.add_argument('-d', '--debug', help='Debug the program',
                         action='store_const', default=False, const=True)
     parser.add_argument('-v', '--version',action='version',
                         version='%(prog)s ver.{0}'.format(__version__))
-    parser.add_argument('-q', '--qual', const=True, default=False,
+    parser.add_argument('-q', const=True, default=False,
                         action='store_const', help='Disable auto-quality')
+    parser.add_argument('-t', '--test', action='store_const', const=True,
+                        default=False, help="Run a unit test then quit")
     try:
         args = parser.parse_args()
-        if DEBUG: print(args)
+        DEBUG = args.debug
+        USE_AUTO_QUALITY = args.q
+        if DEBUG:
+            print(args)
 
-        # Check for a file install
-        if args.install:
-            was_installed = install_file()
-            if was_installed:
-                print("Twitch.py has been installed!")
-            else:
-                print("Twitch.py failed to install")
+        if args.test:
+            print("Running Unit Test")
             quit()
+
         if args.game is None or args.game == '':
             main_directory(args.limit)
         else:

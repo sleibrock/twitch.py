@@ -52,13 +52,9 @@ $ ./twitch.py -l 20 -g Dota 2
 
 ## Installation
 
-You can install Twitch.py to your binary $PATH, the code has some functionality
-to install it for us
-```
-$ ./twitch.py -i
-```
-This will run an install script will run code to copy the file to a 
-place where you can run it globally on your shell.
+Included are some scripts to install Twitch.py to your $PATH location, where 
+you can call it globally across your shell. Pick the script for your system 
+appropriately.
 
 Once it's installed, you can run 
 ```

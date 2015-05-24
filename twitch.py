@@ -2,45 +2,13 @@
 # -*- coding: utf-8 -*-
 
 '''
-# Twitch.py - Twitch on the CLI
-
-## About
-
-Ever wanted to check what Twitch streams are on
-without going to Twitch's web page? Now you can!
-
-With this tool you can see what streams are on,
-how many viewers, and even boot a URL into
-Livestreamer if you have it installed!
-
-## Usage
-
-Simply run the file.
-```
-twitch.py
-```
-
-This will open up the program. If you want a specific game try
-```
-twitch.py -g <name of game>
-```
-
-## Requirements
-
-- Python 3
-- Requests library (from Pip) (optional)
-- Livestreamer (from Pip)
-- Internet (please god have internet)
-
-## Installing
-
-Pass the file an -i or --install to run install code.
-(Only works on *nix so far)
+Twitch.py - Twitch on the CLI
+See readme.md for more info
 '''
 
 __author__ = 'Steven Leibrock'
 __email__ = 'leibrockoli@gmail.com'
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 
 from argparse import ArgumentParser
 from subprocess import call
@@ -106,18 +74,9 @@ def install_file():
     OSX   : No ty
     '''
     from os import name as os_name
-    from os.path import dirname, realpath, join
 
     if os_name == 'posix':
-        fname = __file__.split('/').pop()
-        process = ['sudo', 'cp',
-                   join(dirname(realpath(__file__)), fname),
-                   '/usr/bin/{0}'.format(fname)]
-        print('Activating "{0}"'.format(' '.join(process)))
-        call(process)
-        chmod = ['sudo', 'chmod', '+x', '/usr/bin/{0}'.format(fname)]
-        print('Activating "{0}"'.format(' '.join(chmod)))
-        call(chmod)
+        call("sh install_linux.sh")
     else:
         print("Can't install twitch.py on this system automatically")
         return False
@@ -188,6 +147,7 @@ def main_directory(limit):
     :limit determines how many results will be fetched
     '''
     print('Fetching main Twitch.tv directory...\n')
+    print('Press CTRL+C to quit\n')
     url = '{0}{1}?limit={2}'.format(API_URL, TOP_GAMES, limit)
     blob = load_url(url)
     longest = max([len(g['game']['name']) for g in blob['top']])
@@ -208,7 +168,8 @@ def scan_game_directory(game, limit):
     :limit is how many to fetch
     This code also includes input to select Stream to open
     '''
-    print('Getting streams for "{g}"\n'.format(g=game))
+    print('Getting streams for "{g}"'.format(g=game))
+    print('Press CTRL+C to quit\n')
     search_key = game.lower().replace(' ', '%20')
     search_url = '{b}{q}?q=%22{g}%22&limit={l}'.format(
         b=API_URL, q=SEARCH_STR, g=search_key, l=limit)
@@ -249,7 +210,7 @@ if __name__ == '__main__':
                         action='store_const', help='Disable auto-quality')
     try:
         args = parser.parse_args()
-        print(args)
+        if DEBUG: print(args)
 
         # Check for a file install
         if args.install:

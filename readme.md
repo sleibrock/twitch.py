@@ -6,7 +6,7 @@ Twitch.py
 ## About
 
 Ever wanted to check out Twitch streams without going to their horribly 
-bloated, javascript-ridden website? Well, now you can!
+bloated, javascript-ridden website? Well now you can!
 
 Thanks to the power of the Twitch JSON API (that barely works) we can 
 check frontpage games, streams and so on all from the command line!
@@ -23,8 +23,13 @@ program (you need Python in your $PATH to run it as an executable)
 $ ./twitch.py
 ```
 
-This will show you the top 10 games on Twitch right now. If you want more, 
-set the limit to an amount desired.
+This will show you the top 10 games on Twitch right now. From here you will 
+be asked to input a number to pick which game's directory you want to check out.
+
+Once you pick a directory, you can select a stream to boot into Livestreamer 
+(if you have Livestreamer installed that is)
+
+If you want to show more games/streams, use the -l option to pick more
 ```
 $ ./twitch.py -l 20
 ```
@@ -34,7 +39,7 @@ If you want a game's listing immediately, you can use this option
 $ ./twitch.py -g <game>
 ```
 
-Where <game> is the game you want to check out, ie:
+Where 'game' is the game you want to check out, ie:
 ```
 $ ./twitch.py -g Dota 2
 ```
@@ -52,17 +57,31 @@ to install it for us
 ```
 $ ./twitch.py -i
 ```
-This will run an install function that will run code to copy the file to a 
+This will run an install script will run code to copy the file to a 
 place where you can run it globally on your shell.
 
+Once it's installed, you can run 
+```
+$ twitch
+```
+without needing the .py extension
+
 This only works on Linux at the moment, not implemented for OSX/Windows yet.
+
+## Uninstallation
+
+You can run the uninstall scripts to remove Twitch from the $PATH locations.
+
+Be sure to check the MD5 values before running these scripts.
+
+* uninstall_linux: 478da7b83f9f65356fc50b9155d5efac 
 
 ## Requirements
 
 * Python 3
 * Requests (optional)
 * Livestreamer (optional)
-i
+
 I plan on porting it to Python 2, as it shouldn't be too painful to do, and I'm 
 sure most people haven't moved on to Python 3 yet.
 

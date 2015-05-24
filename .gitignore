@@ -1,0 +1,4 @@
+*.py[oc]
+.ropeproject/
+__pycache__/
+*.swp

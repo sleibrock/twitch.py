@@ -8,7 +8,7 @@ See readme.md for more info
 
 __author__  = 'Steven Leibrock'
 __email__   = 'leibrockoli@gmail.com'
-__version__ = '1.1.4'
+__version__ = '1.1.5'
 
 from argparse import ArgumentParser
 from subprocess import call
@@ -37,7 +37,7 @@ POSSIBLE_PATHS = ['/usr/bin/livestreamer', '/usr/local/bin/livestreamer']
 
 # Try loading the Requests library
 try:
-    if debug: print("Checking for Requests...")
+    if DEBUG: print("Checking for Requests...")
     from requests import get as re_get
 except ImportError as e:
     print('Error: {0}'.format(e))
@@ -50,10 +50,10 @@ except ImportError as e:
 
 # Try loading Livestreamer (if failed, tell them how to get)
 try:
-    if debug: print("Checking for Livestreamer...")
+    if DEBUG: print("Checking for Livestreamer...")
     from livestreamer import streams as StreamData
     from livestreamer import __version__ as LSV
-    if debug: print('Livestreamer version: {v}'.format(v=LSV))
+    if DEBUG: print('Livestreamer version: {v}'.format(v=LSV))
 
     # Try to locate where Livestreamer is installed
     from os.path import isfile as where_is_file
@@ -216,10 +216,10 @@ if __name__ == '__main__':
             print("Running Unit Test")
             quit()
 
-        if args.game is None or args.game == '':
+        if args.g is None or args.g == '':
             main_directory(args.limit)
         else:
-            scan_game_directory(' '.join(args.game), args.limit)
+            scan_game_directory(' '.join(args.g), args.limit)
     except KeyboardInterrupt as e:
         print('\nQuitting...')
     except Exception as e:

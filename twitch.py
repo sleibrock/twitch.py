@@ -181,13 +181,7 @@ def scan_game_directory(game, limit):
     return load_into_livestreamer(urls[inp])
 
 
-class TwitchTest(TestCase):
-
-    def test_front_page(self):
-        pass
-
-    def test_limit_count(self):
-        pass
+    
 
 if __name__ == '__main__':
     parser = ArgumentParser(
@@ -203,7 +197,7 @@ if __name__ == '__main__':
                         version='%(prog)s ver.{0}'.format(__version__))
     parser.add_argument('-q', const=True, default=False,
                         action='store_const', help='Disable auto-quality')
-    parser.add_argument('-t', '--test', action='store_const', const=True,
+    parser.add_argument('-n', action='store_const', const=True,
                         default=False, help="Run a unit test then quit")
     try:
         args = parser.parse_args()
@@ -212,8 +206,9 @@ if __name__ == '__main__':
         if DEBUG:
             print(args)
 
-        if args.test:
+        if args.n:
             print("Running Unit Test")
+            TestMain()
             quit()
 
         if args.g is None or args.g == '':

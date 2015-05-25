@@ -179,8 +179,6 @@ def scan_game_directory(game, limit):
 
     inp = get_input('Select stream> ', 'Try again', len(urls))
     return load_into_livestreamer(urls[inp])
-
-
     
 
 if __name__ == '__main__':
@@ -195,22 +193,14 @@ if __name__ == '__main__':
                         action='store_const', default=False, const=True)
     parser.add_argument('-v', '--version',action='version',
                         version='%(prog)s ver.{0}'.format(__version__))
-    parser.add_argument('-q', const=True, default=False,
+    parser.add_argument('-q', const=False, default=True,
                         action='store_const', help='Disable auto-quality')
-    parser.add_argument('-n', action='store_const', const=True,
-                        default=False, help="Run a unit test then quit")
     try:
         args = parser.parse_args()
         DEBUG = args.debug
         USE_AUTO_QUALITY = args.q
         if DEBUG:
             print(args)
-
-        if args.n:
-            print("Running Unit Test")
-            TestMain()
-            quit()
-
         if args.g is None or args.g == '':
             main_directory(args.limit)
         else:

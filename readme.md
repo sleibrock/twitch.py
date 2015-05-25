@@ -78,8 +78,7 @@ Be sure to check the MD5 values before running these scripts.
 * Requests (optional)
 * Livestreamer (optional)
 
-I plan on porting it to Python 2, as it shouldn't be too painful to do, and I'm 
-sure most people haven't moved on to Python 3 yet.
+No support for Python 2 is planned.
 
 ## Problems
 

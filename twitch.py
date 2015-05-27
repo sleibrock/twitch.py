@@ -12,8 +12,6 @@ __version__ = '1.1.6'
 
 from argparse import ArgumentParser
 from subprocess import call
-from unittest import main as TestMain
-from unittest import TestCase
 
 # Constants
 API_URL                = 'https://api.twitch.tv/kraken'

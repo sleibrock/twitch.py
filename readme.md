@@ -14,16 +14,24 @@ check frontpage games, streams and so on all from the command line!
 The program works in tangent with Livestreamer, so if you have Livestreamer 
 installed you can boot streams directly into Livestreamer.
 
+## Installation
+
+_setup.py_ is a Distutils installer, in order to install this package system-wide, 
+try using:
+```
+$ python setup.py install
+```
+
+This will require administrator privileges (so it may require a _sudo_ on Unix)
+
 ## Usage
 
-The program initially starts with the front page of Twitch, so that it just 
-tells you what the Top Games on Twitch currently are. To do that just run the 
-program (you need Python in your $PATH to run it as an executable)
+
 ```
-$ ./twitch.py
+$ twitch.py
 ```
 
-This will show you the top 10 games on Twitch right now. From here you will 
+This will show you the top 20 games on Twitch right now. From here you will 
 be asked to input a number to pick which game's directory you want to check out.
 
 Once you pick a directory, you can select a stream to boot into Livestreamer 
@@ -31,46 +39,33 @@ Once you pick a directory, you can select a stream to boot into Livestreamer
 
 If you want to show more games/streams, use the -l option to pick more
 ```
-$ ./twitch.py -l 20
+$ twitch.py -l 30
 ```
 
 If you want a game's listing immediately, you can use this option
 ```
-$ ./twitch.py -g <game>
+$ twitch.py -g <game>
 ```
 
 Where 'game' is the game you want to check out, ie:
 ```
-$ ./twitch.py -g Dota 2
+$ twitch.py -g Dota 2
 ```
 No quotes required.
 
 You can mix and match these options.
 ```
-$ ./twitch.py -l 20 -g Dota 2
+$ twitch.py -l 30 -g Dota 2
 ```
-
-## Installation
-
-Included are some scripts to install Twitch.py to your $PATH location, where 
-you can call it globally across your shell. Pick the script for your system 
-appropriately.
-
-Once it's installed, you can run 
-```
-$ twitch
-```
-without needing the .py extension
-
-This only works on Linux at the moment, not implemented for OSX/Windows yet.
 
 ## Uninstallation
 
-You can run the uninstall scripts to remove Twitch from the $PATH locations.
+Twitch.py should be uninstalled through your system's normal uninstallation 
+methods.
 
-Be sure to check the MD5 values before running these scripts.
-
-* uninstall_linux: 478da7b83f9f65356fc50b9155d5efac 
+* Windows: Control Panel > Add or Remove Software
+* Linux: apt-get (Debians), rpm (Fedoras), pacman (Archlinux)
+* OSX: No clue, HELP
 
 ## Requirements
 

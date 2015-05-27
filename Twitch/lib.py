@@ -1,17 +1,14 @@
 #!/usr/bin/python3
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 
-'''
-Twitch.py - Twitch on the CLI
-See readme.md for more info
-'''
+"""
+lib.py
+Essential functions/vars to Twitch.py go here
+"""
 
 __author__  = 'Steven Leibrock'
 __email__   = 'leibrockoli@gmail.com'
-__version__ = '1.1.6'
-
-from argparse import ArgumentParser
-from subprocess import call
+__version__ = '1.2.0'
 
 # Constants
 API_URL                = 'https://api.twitch.tv/kraken'
@@ -21,12 +18,6 @@ DEFAULT_LIMIT          = 20
 LIVESTREAMER_INSTALLED = True
 REQUESTS_INSTALLED     = True
 CHAR_LIMIT             = 50
-DEBUG                  = False
-
-# Livestream qualities
-# -q will disable the automatic use of AUTO_QUALITY
-USE_AUTO_QUALITY       = True
-AUTO_QUALITY           = 'source'
 
 # If Livestreamer is installed, will check to figure out where it is
 # Livestreamer installs are in different places based on the OS
@@ -35,7 +26,6 @@ POSSIBLE_PATHS = ['/usr/bin/livestreamer', '/usr/local/bin/livestreamer']
 
 # Try loading the Requests library
 try:
-    if DEBUG: print("Checking for Requests...")
     from requests import get as re_get
 except ImportError as e:
     print('Error: {0}'.format(e))
@@ -48,10 +38,8 @@ except ImportError as e:
 
 # Try loading Livestreamer (if failed, tell them how to get)
 try:
-    if DEBUG: print("Checking for Livestreamer...")
     from livestreamer import streams as StreamData
     from livestreamer import __version__ as LSV
-    if DEBUG: print('Livestreamer version: {v}'.format(v=LSV))
 
     # Try to locate where Livestreamer is installed
     from os.path import isfile as where_is_file
@@ -107,21 +95,15 @@ def load_into_livestreamer(url):
     Load a URL into Livestreamer
     :url is the target URL to load
     '''
+    # Scan the URL for qualities
     print('Loading {0} ...\n'.format(url))
-
-    # Check for USE_AUTO_QUALITY
-    if USE_AUTO_QUALITY:
-        print('Using auto-quality "{0}" ...\n'.format(AUTO_QUALITY))
-        q = AUTO_QUALITY
-    else:
-        # Scan the URL for qualities
-        qualities = StreamData(url)
-        names = [q.lower() for q in qualities.keys()]
-        for i, q in enumerate(names):
-            print('[{ind}] {qual}'.format(ind=i+1, qual=q))
-        inp = get_input('Enter quality> ', 'Try again', len(names))
-        print('Using quality "{0}" ...\n'.format(names[inp]))
-        q = names[inp]
+    qualities = StreamData(url)
+    names = [q.lower() for q in qualities.keys()]
+    for i, q in enumerate(names):
+        print('[{ind}] {qual}'.format(ind=i+1, qual=q))
+    inp = get_input('Enter quality> ', 'Try again', len(names))
+    print('Using quality "{0}" ...\n'.format(names[inp]))
+    q = names[inp]
     call([LIVESTREAMER_PATH, url, q])
     return True
 
@@ -162,9 +144,6 @@ def scan_game_directory(game, limit):
     urls = [u['channel']['url'] for u in blob['streams']]
     highest_views = max([len("{0:,}".format(v['viewers'])) for v in
                          blob['streams']])
-    if DEBUG:
-        print('Total streams: {0}'.format(blob['_total']))
-        print('Total fetched: {0}\n'.format(len(blob['streams'])))
     for i, stream in enumerate(blob['streams']):
         print('{n:>{f}}) {s: <{cl}}  [viewers: {v:{mv},}]'.format(
                 s=limit_string(stream['channel']['status']),
@@ -177,36 +156,5 @@ def scan_game_directory(game, limit):
 
     inp = get_input('Select stream> ', 'Try again', len(urls))
     return load_into_livestreamer(urls[inp])
-    
-
-if __name__ == '__main__':
-    parser = ArgumentParser(
-        description='Interact with Twitch.tv',
-        prog='twitch.py')
-    parser.add_argument('-g', type=str, nargs='+', metavar='text',
-                        help='The game whose directory you wish to scan')
-    parser.add_argument('-l', '--limit', type=int, default=DEFAULT_LIMIT, 
-                        metavar='LIM', help='Number of streams to fetch')
-    parser.add_argument('-d', '--debug', help='Debug the program',
-                        action='store_const', default=False, const=True)
-    parser.add_argument('-v', '--version',action='version',
-                        version='%(prog)s ver.{0}'.format(__version__))
-    parser.add_argument('-q', const=False, default=True,
-                        action='store_const', help='Disable auto-quality')
-    try:
-        args = parser.parse_args()
-        DEBUG = args.debug
-        USE_AUTO_QUALITY = args.q
-        if DEBUG:
-            print(args)
-        if args.g is None or args.g == '':
-            main_directory(args.limit)
-        else:
-            scan_game_directory(' '.join(args.g), args.limit)
-    except KeyboardInterrupt as e:
-        print('\nQuitting...')
-    except Exception as e:
-        print("Error encountered: {0}".format(e))
-    print('\nAll done!')
 
 # end

@@ -7,7 +7,6 @@ See readme.md for more info
 '''
 
 from argparse import ArgumentParser
-from subprocess import call
 from Twitch.info import __version__
 from Twitch.lib import *
 

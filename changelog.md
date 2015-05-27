@@ -1,6 +1,11 @@
 Changelog
 =========
 
+# 1.2.2
+
+* Fixing issue with improper importing
+* Removed unnecessary imports from app.py
+
 # 1.2.0
 
 Implementing Distutils as the main way of installing Twitch.py

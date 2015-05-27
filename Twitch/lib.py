@@ -6,9 +6,7 @@ lib.py
 Essential functions/vars to Twitch.py go here
 """
 
-__author__  = 'Steven Leibrock'
-__email__   = 'leibrockoli@gmail.com'
-__version__ = '1.2.0'
+from subprocess import call
 
 # Constants
 API_URL                = 'https://api.twitch.tv/kraken'

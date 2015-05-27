@@ -8,7 +8,7 @@ See readme.md for more info
 
 __author__  = 'Steven Leibrock'
 __email__   = 'leibrockoli@gmail.com'
-__version__ = '1.1.5'
+__version__ = '1.1.6'
 
 from argparse import ArgumentParser
 from subprocess import call
@@ -19,7 +19,7 @@ from unittest import TestCase
 API_URL                = 'https://api.twitch.tv/kraken'
 TOP_GAMES              = '/games/top'
 SEARCH_STR             = '/search/streams'
-DEFAULT_LIMIT          = 10
+DEFAULT_LIMIT          = 20
 LIVESTREAMER_INSTALLED = True
 REQUESTS_INSTALLED     = True
 CHAR_LIMIT             = 50

@@ -1,35 +1,31 @@
 Twitch.py
-=========
-
 :video_game: Twitch on the Shell :toilet:
 
-## About
+1) About
 
-Ever wanted to check out Twitch streams without going to their horribly 
-bloated, javascript-ridden website? Well now you can!
+Twitch.py is a script to access Twitch.tv from the shell/terminal emulator.
+Instead of having to open up your browser to check your favorite games, you 
+can do so from the terminal.
 
-Thanks to the power of the Twitch JSON API (that barely works) we can 
-check frontpage games, streams and so on all from the command line!
+Additionally if you have Livestreamer installed, you can also load a stream 
+directly into Livestreamer.
 
-The program works in tangent with Livestreamer, so if you have Livestreamer 
-installed you can boot streams directly into Livestreamer.
+2) Installation
 
-## Installation
+Run the setup.py installation through Distutils
 
-_setup.py_ is a Distutils installer, in order to install this package system-wide, 
-try using:
-```
+
 $ python setup.py install
-```
-
-This will require administrator privileges (so it may require a _sudo_ on Unix)
-
-## Usage
 
 
-```
+This will require administrator privileges (so it may require a sudo on Unix)
+
+3) Usage
+
+Once installed you can call Twitch.py through it's main script
+
 $ twitch.py
-```
+
 
 This will show you the top 20 games on Twitch right now. From here you will 
 be asked to input a number to pick which game's directory you want to check out.
@@ -38,36 +34,36 @@ Once you pick a directory, you can select a stream to boot into Livestreamer
 (if you have Livestreamer installed that is)
 
 If you want to show more games/streams, use the -l option to pick more
-```
+
 $ twitch.py -l 30
-```
+
 
 If you want a game's listing immediately, you can use this option
-```
+
 $ twitch.py -g <game>
-```
+
 
 Where 'game' is the game you want to check out, ie:
-```
+
 $ twitch.py -g Dota 2
-```
+
 No quotes required.
 
 You can mix and match these options.
-```
-$ twitch.py -l 30 -g Dota 2
-```
 
-## Uninstallation
+$ twitch.py -l 30 -g Dota 2
+
+
+4) Uninstallation
 
 Twitch.py should be uninstalled through your system's normal uninstallation 
 methods.
 
 * Windows: Control Panel > Add or Remove Software
-* Linux: apt-get (Debians), rpm (Fedoras), pacman (Archlinux)
+* Linux: can be removed via Pip (until Pip deprecates that ability)
 * OSX: No clue, HELP
 
-## Requirements
+5) Requirements
 
 * Python 3
 * Requests (optional)
@@ -75,7 +71,7 @@ methods.
 
 No support for Python 2 is planned.
 
-## Problems
+6) Problems
 
 Report any issues to the Issue Tracker, or check the FAQ for anything else.
 

@@ -1,6 +1,17 @@
 Changelog
 =========
 
+# 1.2.0
+
+Implementing Distutils as the main way of installing Twitch.py
+
+* Removed shell scripts, as Distutils now replaces that method
+* Moved twitch.py into it's own package folder
+* Split up code from twitch.py into lib.py
+* Added info to Twitch/info.py
+* Removed debug options from all code, including -d/--debug
+* Moved unit testing into Twitch/ package
+* Added dist folder, this will store older package tarballs
 
 # 1.1.0
 

@@ -1,7 +1,7 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 #-*- coding:utf-8 -*-
 
-__version__ = "1.2.2"
+__version__ = "1.3.0"
 
 __author__  = "Steven L"
 __email__   = "leibrockoli@gmail.com"

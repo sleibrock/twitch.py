@@ -65,11 +65,12 @@ methods.
 
 5) Requirements
 
-* Python 3
+* Python 2.7.2 or Python 3
 * Requests (optional)
 * Livestreamer (optional)
 
-No support for Python 2 is planned.
+Python 2 might be slightly buggier than 3, so if you have any issues, please 
+report them.
 
 6) Problems
 

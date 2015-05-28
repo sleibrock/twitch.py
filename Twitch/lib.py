@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
 """
@@ -7,6 +7,7 @@ Essential functions/vars to Twitch.py go here
 """
 
 from subprocess import call
+from string import printable as printable_chrs
 
 # Constants
 API_URL                = 'https://api.twitch.tv/kraken'
@@ -21,6 +22,18 @@ CHAR_LIMIT             = 50
 # Livestreamer installs are in different places based on the OS
 LIVESTREAMER_PATH = '/usr/bin/livestreamer'
 POSSIBLE_PATHS = ['/usr/bin/livestreamer', '/usr/local/bin/livestreamer']
+
+USE_BEST_QUALITY = False
+QUALITIES = {"source" : 10,
+             "high"   :  9,
+             "best"   :  8,
+             "medium" :  7,
+             "low"    :  6,
+             "mobile" :  5,
+             "worst"  :  4,
+             "audio"  :  3,
+             }
+
 
 # Try loading the Requests library
 try:
@@ -51,15 +64,33 @@ except Exception as e:
     LIVESTREAMER_INSTALLED = False
 
 
-def limit_string(s):
+def filter_string(s):
     '''
-    Limit a string to the CHAR_LIMIT
-    :s is the input string
+    Filter a string
+    1) Clean the string of non-printables
+    2) Limit the string if it's length exceeds CHAR_LIMIT
+    3) Return it!
+    Also strip trailing whitespace
+    <limit_string> has been merged into this method
+    (Sorry russian users of Python 2)
     '''
-    # Daft Punk song variable for extra credit
-    too_long = ".." if len(s) > CHAR_LIMIT else ""
-    return "{0}{1}".format(s[:CHAR_LIMIT], too_long)
+    return "{0}{1}".format(
+        "".join((x for x in s if x in printable_chrs)).strip()[:CHAR_LIMIT],
+        ".." if len(s) > CHAR_LIMIT else "")
 
+def get_best_quality(self, qualities):
+    '''
+    Compare the :qualities to the defined dict of qualities
+    Return the highest key-value pair for "best" quality
+    '''
+    highest = None
+    for quality in qualities:
+        if highest is None:
+            highest = quality
+        else:
+            if QUALITIES[quality] > QUALITIES[highest]:
+                highest = quality
+    return highest
 
 def load_url(url):
     '''
@@ -96,12 +127,16 @@ def load_into_livestreamer(url):
     # Scan the URL for qualities
     print('Loading {0} ...\n'.format(url))
     qualities = StreamData(url)
-    names = [q.lower() for q in qualities.keys()]
+    names = [q.lower().strip() for q in qualities.keys()]
     for i, q in enumerate(names):
         print('[{ind}] {qual}'.format(ind=i+1, qual=q))
-    inp = get_input('Enter quality> ', 'Try again', len(names))
-    print('Using quality "{0}" ...\n'.format(names[inp]))
-    q = names[inp]
+    
+    if USE_BEST_QUALITY:
+        q = get_best_quality(qualities)
+    else:
+        inp = get_input('Enter quality> ', 'Try again', len(names))
+        q = names[inp]
+    print('Using quality "{0}" ...\n'.format(q))
     call([LIVESTREAMER_PATH, url, q])
     return True
 
@@ -119,7 +154,8 @@ def main_directory(limit):
     game_titles = [g['game']['name'] for g in blob['top']]
     for i, game_blob in enumerate(blob['top']):
         print('{n:>{fill2}}) {gt:<{fill}}   [viewers: {vc:7,}, chans: {cc:5,}]'.
-              format(gt=game_blob['game']['name'], vc=game_blob['viewers'],
+              format(gt=filter_string(game_blob['game']['name']), 
+                     vc=game_blob['viewers'],
                      cc=game_blob['channels'], fill=longest, n=i+1,
                      fill2=len(str(DEFAULT_LIMIT))))
     inp = get_input('Enter number> ', 'Try again', len(game_titles))
@@ -144,7 +180,7 @@ def scan_game_directory(game, limit):
                          blob['streams']])
     for i, stream in enumerate(blob['streams']):
         print('{n:>{f}}) {s: <{cl}}  [viewers: {v:{mv},}]'.format(
-                s=limit_string(stream['channel']['status']),
+                s=filter_string(stream['channel']['status']),
                 n=i+1, v=stream['viewers'], f=len(str(DEFAULT_LIMIT)),
                 cl=CHAR_LIMIT+2, mv=highest_views))
 

@@ -1,6 +1,12 @@
 Changelog
 =========
 
+# 1.3.0
+
+* Supports Python 2
+* Removes non-printable characters (according to string.printable)
+* Strips trailing whitespace from printed listings
+
 # 1.2.2
 
 * Fixing issue with improper importing

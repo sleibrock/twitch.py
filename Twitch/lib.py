@@ -23,7 +23,6 @@ CHAR_LIMIT             = 50
 LIVESTREAMER_PATH = '/usr/bin/livestreamer'
 POSSIBLE_PATHS = ['/usr/bin/livestreamer', '/usr/local/bin/livestreamer']
 
-USE_BEST_QUALITY = False
 QUALITIES = {"source" : 10,
              "high"   :  9,
              "best"   :  8,
@@ -78,7 +77,7 @@ def filter_string(s):
         "".join((x for x in s if x in printable_chrs)).strip()[:CHAR_LIMIT],
         ".." if len(s) > CHAR_LIMIT else "")
 
-def get_best_quality(self, qualities):
+def get_best_quality(qualities):
     '''
     Compare the :qualities to the defined dict of qualities
     Return the highest key-value pair for "best" quality
@@ -119,7 +118,7 @@ def get_input(disp_str, err_str, maxv):
     return inp - 1
 
 
-def load_into_livestreamer(url):
+def load_into_livestreamer(url, best=False):
     '''
     Load a URL into Livestreamer
     :url is the target URL to load
@@ -128,12 +127,11 @@ def load_into_livestreamer(url):
     print('Loading {0} ...\n'.format(url))
     qualities = StreamData(url)
     names = [q.lower().strip() for q in qualities.keys()]
-    for i, q in enumerate(names):
-        print('[{ind}] {qual}'.format(ind=i+1, qual=q))
-    
-    if USE_BEST_QUALITY:
-        q = get_best_quality(qualities)
+    if best:
+        q = get_best_quality(names)
     else:
+        for i, q in enumerate(names):
+            print('[{ind}] {qual}'.format(ind=i+1, qual=q))
         inp = get_input('Enter quality> ', 'Try again', len(names))
         q = names[inp]
     print('Using quality "{0}" ...\n'.format(q))
@@ -141,7 +139,7 @@ def load_into_livestreamer(url):
     return True
 
 
-def main_directory(limit):
+def main_directory(limit, best=False):
     '''
     Fetch the top games on Twitch
     :limit determines how many results will be fetched
@@ -159,10 +157,10 @@ def main_directory(limit):
                      cc=game_blob['channels'], fill=longest, n=i+1,
                      fill2=len(str(DEFAULT_LIMIT))))
     inp = get_input('Enter number> ', 'Try again', len(game_titles))
-    return scan_game_directory(game_titles[inp], limit)
+    return scan_game_directory(game_titles[inp], limit, best)
 
 
-def scan_game_directory(game, limit):
+def scan_game_directory(game, limit, best=False):
     '''
     Scan game directory
     :game is the game streams to find
@@ -189,6 +187,6 @@ def scan_game_directory(game, limit):
         return False
 
     inp = get_input('Select stream> ', 'Try again', len(urls))
-    return load_into_livestreamer(urls[inp])
+    return load_into_livestreamer(urls[inp], best)
 
 # end

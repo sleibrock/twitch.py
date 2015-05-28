@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 1.3.1
+
+* Fixing code to support automatic best-quality
+
 # 1.3.0
 
 * Supports Python 2

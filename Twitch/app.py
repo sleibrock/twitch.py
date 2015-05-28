@@ -22,14 +22,16 @@ def main(*args, **kwargs):
                         help='The game whose directory you wish to scan')
     parser.add_argument('-l', '--limit', type=int, default=DEFAULT_LIMIT, 
                         metavar='LIM', help='Number of streams to fetch')
-    parser.add_argument('-v', '--version',action='version',
+    parser.add_argument('-v', '--version', action='version',
                         version='%(prog)s ver.{0}'.format(__version__))
+    parser.add_argument('-b', '--best', action='store_const', const=True,
+                        default=False, help='Use best quality') 
     try:
         args = parser.parse_args()
         if args.g is None or args.g == '':
-            main_directory(args.limit)
+            main_directory(args.limit, args.best)
         else:
-            scan_game_directory(' '.join(args.g), args.limit)
+            scan_game_directory(' '.join(args.g), args.limit, args.best)
     except KeyboardInterrupt as e:
         print('\nQuitting...')
     except Exception as e:

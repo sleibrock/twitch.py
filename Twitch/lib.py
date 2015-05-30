@@ -33,7 +33,6 @@ QUALITIES = {"source" : 10,
              "audio"  :  3,
              }
 
-
 # Try loading the Requests library
 try:
     from requests import get as re_get
@@ -47,6 +46,8 @@ except ImportError as e:
     REQUESTS_INSTALLED = False
 
 # Try loading Livestreamer (if failed, tell them how to get)
+# 1.4: load webbrowser package and use that in place of livestreamer
+# LIVESTREAMER_INSTALLED will determine if webbrowser will be used
 try:
     from livestreamer import streams as StreamData
     from livestreamer import __version__ as LSV
@@ -60,6 +61,7 @@ except Exception as e:
     print('Error: {0}'.format(e))
     print('Livestreamer not installed, to install it you can run:')
     print('\n  pip install livestreamer\n')
+    from webbrowser import open as browser_open
     LIVESTREAMER_INSTALLED = False
 
 
@@ -184,6 +186,7 @@ def scan_game_directory(game, limit, best=False):
 
     if not LIVESTREAMER_INSTALLED:
         print('\n{0}\n!! Livestreamer is not installed !!\n{0}'.format('*'*10))
+        browser_open(urls[inp])
         return False
 
     inp = get_input('Select stream> ', 'Try again', len(urls))

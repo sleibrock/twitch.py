@@ -1,7 +1,10 @@
 Frequently Asked Questions
 ==========================
 
-Nothing here yet!
+## Why are streams with barely any viewers showing up?
+
+I couldn't tell you why. Twitch will sometimes give bad responses to API calls, 
+it's entirely out of my hands as to what Twitch will give back.
 
 ## Why don't certain streams show up at all?
 

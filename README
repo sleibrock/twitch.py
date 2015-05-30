@@ -14,9 +14,7 @@ directly into Livestreamer.
 
 Run the setup.py installation through Distutils
 
-
 $ python setup.py install
-
 
 This will require administrator privileges (so it may require a sudo on Unix)
 
@@ -25,7 +23,6 @@ This will require administrator privileges (so it may require a sudo on Unix)
 Once installed you can call Twitch.py through it's main script
 
 $ twitch.py
-
 
 This will show you the top 20 games on Twitch right now. From here you will 
 be asked to input a number to pick which game's directory you want to check out.
@@ -37,11 +34,9 @@ If you want to show more games/streams, use the -l option to pick more
 
 $ twitch.py -l 30
 
-
 If you want a game's listing immediately, you can use this option
 
 $ twitch.py -g <game>
-
 
 Where 'game' is the game you want to check out, ie:
 
@@ -52,7 +47,6 @@ No quotes required.
 You can mix and match these options.
 
 $ twitch.py -l 30 -g Dota 2
-
 
 4) Uninstallation
 

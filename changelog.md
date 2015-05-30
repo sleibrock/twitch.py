@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 1.4.0
+
+* Adding webbrowser support for non-livestreamer devices
+
 # 1.3.1
 
 * Fixing code to support automatic best-quality

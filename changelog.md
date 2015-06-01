@@ -1,6 +1,13 @@
 Changelog
 =========
 
+# 2.0.0
+
+* Changed the application structure to an object-oriented system
+* Removed unit testing from the project (wasn't needed)
+* Moved Twitch/ package to Kappa/ (issue with Windows)
+* Changed app.py to appa.py (obvious reasons)
+
 # 1.4.0
 
 * Adding webbrowser support for non-livestreamer devices

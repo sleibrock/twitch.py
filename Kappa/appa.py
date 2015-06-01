@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 '''
-Twitch.py - Twitch on the CLI
-See readme.md for more info
+app.py 
+Defines the main() function ran by "twitch"
 '''
 
 from argparse import ArgumentParser
-from Twitch.info import __version__
-from Twitch.lib import *
+from .info import __version__
+from .lib import TwitchApp as App
 
 
 def main(*args, **kwargs):
@@ -20,25 +20,22 @@ def main(*args, **kwargs):
         prog='twitch.py')
     parser.add_argument('-g', type=str, nargs='+', metavar='text',
                         help='The game whose directory you wish to scan')
-    parser.add_argument('-l', '--limit', type=int, default=DEFAULT_LIMIT, 
+    parser.add_argument('-l', '--limit', type=int, default=App.default_limit, 
                         metavar='LIM', help='Number of streams to fetch')
     parser.add_argument('-v', '--version', action='version',
                         version='%(prog)s ver.{0}'.format(__version__))
     parser.add_argument('-b', '--best', action='store_const', const=True,
                         default=False, help='Use best quality') 
+    parser.add_argument('-d', '--debug', action='store_const', const=True,
+                        default=False, help='Debug the program')
     try:
         args = parser.parse_args()
-        if args.g is None or args.g == '':
-            main_directory(args.limit, args.best)
-        else:
-            scan_game_directory(' '.join(args.g), args.limit, args.best)
+        App(args)
     except KeyboardInterrupt as e:
         print('\nQuitting...')
     except Exception as e:
         print("Error encountered: {0}".format(e))
     print('\nAll done!')
-
-
 if __name__ == '__main__':
     main()
 # end

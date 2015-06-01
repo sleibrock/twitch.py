@@ -2,7 +2,7 @@
 #-*- coding:utf-8 -*-
 
 from distutils.core import setup
-import Twitch.info as info
+import Kappa.info as info
 
 files = [] 
 
@@ -12,7 +12,7 @@ setup(name="Twitch.tv",
     author=info.__author__,
     author_email=info.__email__,
     url=info.__url__,
-    packages=["Twitch"],
+    packages=["Kappa"],
     scripts=['twitch'],
     long_description="""
     Access Twitch.tv from the Shell

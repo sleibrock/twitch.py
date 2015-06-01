@@ -48,6 +48,7 @@ class TwitchApp(object):
         self._import_pkgs()
         self.default_limit = arg_obj.limit
         self.best = arg_obj.best
+        self.debug = arg_obj.debug
 
         if arg_obj.g is not None:
             return self.game_directory(' '.join(arg_obj.g))
@@ -107,6 +108,8 @@ class TwitchApp(object):
         print('Fetching main Twitch.tv directory...')
         print('Press CTRL+C to quit\n')
         url = self.top_games.format(self.default_limit)
+        if self.debug:
+            print(url)
         blob = self.get_url(url)
         longest = max([len(g['game']['name']) for g in blob['top']])
         game_titles = [g['game']['name'] for g in blob['top']]
@@ -124,6 +127,8 @@ class TwitchApp(object):
         print('Press CTRL+C to quit\n')
         search_key = game.lower().replace(' ', '%20')
         url = self.make_url(search_key)
+        if self.debug:
+            print(url)
         blob = self.get_url(url)
         urls = [u['channel']['url'] for u in blob['streams']]
         highest_views = max([len("{0:,}".format(v['viewers'])) for v in

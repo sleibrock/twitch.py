@@ -28,14 +28,19 @@ def main(*args, **kwargs):
                         default=False, help='Use best quality') 
     parser.add_argument('-d', '--debug', action='store_const', const=True,
                         default=False, help='Debug the program')
-    try:
-        args = parser.parse_args()
+    args = parser.parse_args()
+    if args.debug:
         App(args)
-    except KeyboardInterrupt as e:
-        print('\nQuitting...')
-    except Exception as e:
-        print("Error encountered: {0}".format(e))
-    print('\nAll done!')
+        print("Finished debugging")
+    else:
+        try:
+            App(args)
+        except KeyboardInterrupt as e:
+            print('\nQuitting...')
+        except Exception as e:
+            print("Error encountered: {0}".format(e))
+        finally:
+            print('\nAll done!')
 if __name__ == '__main__':
     main()
 # end

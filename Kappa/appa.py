@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-app.py 
+appa.py 
 Defines the main() function ran by "twitch"
 '''
 

@@ -1,27 +1,46 @@
 #!/usr/bin/python3
 #-*- coding:utf-8 -*-
 
-from distutils.core import setup
+from setuptools import setup
+from os import path
 import Kappa.info as info
 
-files = [] 
+long_desc = """
+Access Twitch.tv from the Shell
+Check streams, see viewers, load streams into Livestreamer
+"""
 
-setup(name="Twitch.tv",
-    version=info.__version__,
-    description="Access Twitch from the Shell",
-    author=info.__author__,
-    author_email=info.__email__,
-    url=info.__url__,
-    packages=["Kappa"],
-    scripts=['twitch'],
-    long_description="""
-    Access Twitch.tv from the Shell
-    Check streams, see viewers, load streams up directly
-    """,
-    license=info.__license__,
-    classifiers=[
-        # Add more classifiers later maybe
-        "Programming Language :: Python :: 3"
-    ],
-    keywords="twitch livestreamer videogames video games"
-)
+conf = {
+        "name":"Twitch.py",
+        "version":info.__version__,
+        "description":info.__description__,
+        "long_description":long_desc,
+        "url":info.__url__,
+        "author":info.__author__,
+        "author_email":info.__email__,
+        "license":info.__license__,
+        "classifiers":[
+            "Development Status :: 5 - Production/Stable",
+            "Intended Audience :: Developers",
+            "Programming Language :: Python :: 2",
+            "Programming Language :: Python :: 2.6",
+            "Programming Language :: Python :: 2.7",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.2",
+            "Programming Language :: Python :: 3.3",
+            "Programming Language :: Python :: 3.4",
+            ],
+        "keywords":"twitch livestreamer videogames video games twitch.tv",
+        "packages":["Kappa"],
+        "install_requires":["Livestreamer", "requests"],
+        "extras_require":{},
+        "package_data":{},
+        "entry_points":{
+            'console_scripts':[
+                'twitch=Kappa.appa:main',
+                ]
+        }
+    }
+
+setup(**conf)
+# end

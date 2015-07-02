@@ -1,6 +1,9 @@
-*.py[oc]
+dist/
+env/
+*.py[cod]
 .ropeproject/
 __pycache__/
 *.swp
 build/
 MANIFEST
+*.egg-info/

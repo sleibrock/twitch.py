@@ -52,7 +52,7 @@ class TwitchApp(object):
 
         if arg_obj.g is not None:
             return self.game_directory(' '.join(arg_obj.g))
-        return self.main_directory()
+        self.main_directory()
 
     def _import_pkgs(self):
         if re_get is not None:

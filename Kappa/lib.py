@@ -130,7 +130,10 @@ class TwitchApp(object):
         if self.debug:
             print(url)
         blob = self.get_url(url)
-        urls = [u['channel']['url'] for u in blob['streams']]
+        if self.debug:
+            print(blob)
+        urls = [u['channel']['url'] for u in blob['streams']
+                if 'url' in u['channel']]
         highest_views = max([len("{0:,}".format(v['viewers'])) for v in
                          blob['streams']])
         for i, stream in enumerate(blob['streams']):

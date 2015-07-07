@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 #-*- coding:utf-8 -*-
 
-from setuptools import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 from os import path
 import Kappa.info as info
 
@@ -36,11 +39,11 @@ conf = {
         "extras_require":{},
         "package_data":{},
         "entry_points":{
-            'console_scripts':[
-                'twitch=Kappa.appa:main',
+            "console_scripts":[
+                "twitch=Kappa.appa:main"
                 ]
+            }
         }
-    }
 
 setup(**conf)
 # end

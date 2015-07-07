@@ -111,14 +111,11 @@ class TwitchApp(object):
         if self.debug:
             print(url)
         blob = self.get_url(url)
-        longest = max([len(g['game']['name']) for g in blob['top']])
         game_titles = [g['game']['name'] for g in blob['top']]
-        for i, game_blob in enumerate(blob['top']):
-            print('{n:>{fill2}}) {gt:<{fill}}   [viewers: {vc:7,}, chans: {cc:5,}]'.
-                format(gt=self._clean_string(game_blob['game']['name']), 
-                     vc=game_blob['viewers'],
-                     cc=game_blob['channels'], fill=longest, n=i+1,
-                     fill2=len(str(self.default_limit))))
+
+        for i, gt in enumerate(game_titles):
+            print("{n:>2}) {0}".format(gt, n=i+1))
+
         inp = self.get_input('Enter number> ', 'Try again', len(game_titles))
         return self.game_directory(game_titles[inp])
 
@@ -130,17 +127,18 @@ class TwitchApp(object):
         if self.debug:
             print(url)
         blob = self.get_url(url)
-        if self.debug:
-            print(blob)
-        urls = [u['channel']['url'] for u in blob['streams']
-                if 'url' in u['channel']]
-        highest_views = max([len("{0:,}".format(v['viewers'])) for v in
-                         blob['streams']])
-        for i, stream in enumerate(blob['streams']):
-            print('{n:>{f}}) {s: <{cl}}  [viewers: {v:{mv},}]'.format(
-                s=self._clean_string(stream['channel']['status']),
-                n=i+1, v=stream['viewers'], f=len(str(self.default_limit)),
-                cl=self.chrs+2, mv=highest_views))
+
+        streams = [(u['channel']['url'], u['channel']['status'], u['viewers'])
+                    for u in blob['streams']
+                    if all([x in u['channel'] for x in ('url', 'status')])]
+        urls = [x[0] for x in streams]
+
+        for i, u in enumerate(streams):
+            print("{n:>2}) {status} ({name}, {views:,})".format(
+                name=u[0].split("/").pop(),
+                status=self._clean_string(u[1]),
+                views=u[2],
+                n=i+1))
 
         inp = self.get_input('Select stream> ', 'Try again', len(urls))
         return self.load_stream(urls[inp])

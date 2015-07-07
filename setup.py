@@ -5,6 +5,7 @@ try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
+import os
 from os import path
 import Kappa.info as info
 
@@ -45,5 +46,12 @@ conf = {
             }
         }
 
-setup(**conf)
+# Create a readme file for PYPI but remove it after setup
+readme = open("README.md", "r")
+with open("README.txt", "w") as temp_readme:
+    temp_readme.write(readme.read())
+    setup(**conf)
+    
+readme.close()
+os.remove("README.txt")
 # end

@@ -1,6 +1,7 @@
 Twitch.py
 =========
 Twitch on the Shell
+
 [![Build Status](https://travis-ci.org/leibrockoli/Twitch.py.svg?branch=master)](https://travis-ci.org/leibrockoli/Twitch.py)
 
 About

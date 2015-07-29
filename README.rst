@@ -33,6 +33,7 @@ Usage
 Once installed you can call Twitch.py through it's main script
 
 .. sourcecode:: console
+
     $ twitch
 
 This will show you the top 20 games on Twitch right now. From here you will 
@@ -44,16 +45,19 @@ Once you pick a directory, you can select a stream to boot into Livestreamer
 If you want to show more games/streams, use the -l option to pick more
 
 .. sourcecode:: console
+
     $ twitch -l 30
 
 If you want a game's listing immediately, you can use this option
 
 .. sourcecode:: console
+
     $ twitch -g <game>
 
 Where 'game' is the game you want to check out, ie:
 
 .. sourcecode:: console
+
     $ twitch -g Dota 2
 
 No quotes required.
@@ -61,6 +65,7 @@ No quotes required.
 You can mix and match these options.
 
 .. sourcecode:: console
+
     $ twitch -l 30 -g Dota 2
 
 Uninstallation

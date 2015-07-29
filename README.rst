@@ -2,7 +2,8 @@ Twitch.py
 =========
 Twitch on the Shell
 
-[![Build Status](https://travis-ci.org/leibrockoli/Twitch.py.svg?branch=master)](https://travis-ci.org/leibrockoli/Twitch.py)
+.. image:: https://travis-ci.org/leibrockoli/Twitch.py.svg?branch=master
+    :target: https://travis-ci.org/leibrockoli/Twitch.py
 
 About
 -----
@@ -20,9 +21,9 @@ Installation
 Twitch.py now uses Pip as it's central package distribution. To install 
 Twitch.py you can run the following Pip command (may need sudo access)
 
-```
-$ pip install Twitch.py 
-```
+.. sourcecode:: console
+    $ pip install Twitch.py 
+
 
 This will require administrator privileges (so it may require a sudo on Unix)
 
@@ -31,9 +32,8 @@ Usage
 
 Once installed you can call Twitch.py through it's main script
 
-```
-$ twitch
-```
+.. sourcecode:: console
+    $ twitch
 
 This will show you the top 20 games on Twitch right now. From here you will 
 be asked to input a number to pick which game's directory you want to check out.
@@ -43,29 +43,25 @@ Once you pick a directory, you can select a stream to boot into Livestreamer
 
 If you want to show more games/streams, use the -l option to pick more
 
-```
-$ twitch -l 30
-```
+.. sourcecode:: console
+    $ twitch -l 30
 
 If you want a game's listing immediately, you can use this option
 
-```
-$ twitch -g <game>
-```
+.. sourcecode:: console
+    $ twitch -g <game>
 
 Where 'game' is the game you want to check out, ie:
 
-```
-$ twitch -g Dota 2
-```
+.. sourcecode:: console
+    $ twitch -g Dota 2
 
 No quotes required.
 
 You can mix and match these options.
 
-```
-$ twitch -l 30 -g Dota 2
-```
+.. sourcecode:: console
+    $ twitch -l 30 -g Dota 2
 
 Uninstallation
 --------------

@@ -2,8 +2,6 @@ Twitch.py
 =========
 Twitch on the Shell
 
-.. image:: https://travis-ci.org/leibrockoli/Twitch.py.svg?branch=master
-    :target: https://travis-ci.org/leibrockoli/Twitch.py
 
 About
 -----

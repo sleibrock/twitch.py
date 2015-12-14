@@ -13,8 +13,8 @@ try:
     from requests import get as re_get
 except ImportError as e:
     print('Error: {0}'.format(e))
-    print('Requests not installed, to install it you can run:')
-    print('\n  pip install requests')
+    print('[OPTIONAL] Requests not installed, to install it you can run:')
+    print('\t  pip install requests\n')
     print('Defaulting to urllib...')
     from urllib import urlopen
     from json import loads as json_load
@@ -26,7 +26,7 @@ try:
 except Exception as e:
     print('Error: {0}'.format(e))
     print('Livestreamer not installed, to install it you can run:')
-    print('\n  pip install livestreamer\n')
+    print('\tpip install livestreamer\n')
     StreamData = None
     from webbrowser import open as browser_open
 
@@ -51,8 +51,9 @@ class TwitchApp(object):
         self.debug = arg_obj.debug
 
         if arg_obj.g is not None:
-            return self.game_directory(' '.join(arg_obj.g))
-        self.main_directory()
+            self.game_directory(' '.join(arg_obj.g))
+        else:
+            self.main_directory()
 
     def _import_pkgs(self):
         if re_get is not None:

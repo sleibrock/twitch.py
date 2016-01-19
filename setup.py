@@ -4,6 +4,11 @@
 from setuptools import setup
 import Kappa.info as info
 
+import os
+old_readme = open("README.md", "r")
+with open("README.rst","w") as f:
+    f.write(old_readme.read())
+
 long_desc = """
 Access Twitch.tv from the Shell
 Check streams, see viewers, load streams into Livestreamer
@@ -41,4 +46,7 @@ conf = {
             }
         }
 setup(**conf)
+
+# Clean the old file
+os.remove("README.rst")
 # end

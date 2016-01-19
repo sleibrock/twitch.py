@@ -1,2 +1,2 @@
-include twitch
 include AUTHORS
+include LICENSE

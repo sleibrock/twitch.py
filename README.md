@@ -2,6 +2,10 @@ Twitch.py
 =========
 Twitch on the Shell
 
+Project Archival
+-----
+
+The project has been archived. It has been about 10 years since it's conception, and I have no further interest in maintaining it, updating it, or using Twitch personally. The links and code is most likely beyond stale, and the package needed to be changed to prevent it from being further squatted.
 
 About
 -----
